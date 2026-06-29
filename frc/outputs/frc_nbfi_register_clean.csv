@@ -1,0 +1,4 @@
+﻿register,company_name,nbfi_join_key,detail_rows,source_detail_url,scraped_at
+,nan,NAN,,https://www.frc.mn:5001/api/frc/entity?id=12&otid=0,
+,ББСБ-уудын анхааралд,УУДЫНАНХААРАЛД,,https://www.frc.mn:5001/api/menu/getparentsub?id=12&site=main&lang=mn&status=1,
+,ББСБ-уудын санхүүгийн тайлангийн нэгтгэлийн танилцуулга,УУДЫНСАНХҮҮГИЙНТАЙЛАНГИЙННЭГТГЭЛИЙНТАНИЛЦУУЛГА,,https://www.frc.mn:5001/api/menu/getparentsub?id=12&site=main&lang=mn&status=1,

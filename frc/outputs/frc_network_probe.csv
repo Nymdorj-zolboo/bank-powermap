@@ -1,0 +1,23 @@
+﻿url,status,content_type,method,resource_type,record_count_guess,sample_keys,error,body_size
+https://www.frc.mn/assets/js/lightcase.js,200,application/javascript,GET,script,0,,,53967
+https://www.frc.mn/assets/js/bootstrap.min.js,200,application/javascript,GET,script,0,,,63240
+https://www.frc.mn/assets/js/element.js,200,application/javascript,GET,script,0,,,1288
+https://www.frc.mn/runtime.93065c384e02e138.js,200,application/javascript,GET,script,0,,,2864
+https://www.frc.mn/assets/js/jquery-3.3.1.min.js,200,application/javascript,GET,script,0,,,86926
+https://www.frc.mn/assets/js/uikit.min.js,200,application/javascript,GET,script,0,,,126595
+https://www.frc.mn/polyfills.7cc8df1a4a3960d0.js,200,application/javascript,GET,script,0,,,33931
+"https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",200,text/css; charset=utf-8,GET,stylesheet,0,,,36183
+"https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",200,text/css; charset=utf-8,GET,stylesheet,0,,,19872
+https://www.frc.mn/main.ef7ba67664924115.js,200,application/javascript,GET,script,0,,,1453009
+https://www.frc.mn:5001/api/slide?site=main&lang=mn&position=leftfixed&stat=none,200,application/json; charset=utf-8,GET,xhr,0,,,829
+https://www.frc.mn:5001/api/socialmedia?site=main&lang=mn&status=active,200,application/json; charset=utf-8,GET,xhr,0,,,984
+https://www.frc.mn:5001/api/menu?site=main&lang=mn&position=footer&status=1,200,application/json; charset=utf-8,GET,xhr,0,,,969
+https://www.frc.mn:5001/api/page/style?site=main&lang=mn&styleid=contact,200,application/json; charset=utf-8,GET,xhr,0,,,5498
+https://www.frc.mn:5001/api/menu?site=main&lang=mn&position=main&status=1,200,application/json; charset=utf-8,GET,xhr,1,"iDs, menuname, menuloc, menuvisible, count, parentid, menutid, menulink, site, lang, bgcolor, textcolor, sortid, target, userid, fid, menusort",,14460
+https://www.frc.mn/454.485b3ea9ff857efe.js,200,application/javascript,GET,script,0,,,468341
+https://www.frc.mn:5001/api/news?menuid=12&site=main&lang=mn&page=0,200,application/json; charset=utf-8,GET,xhr,0,,,2
+https://www.frc.mn:5001/api/menu/getsubmenu?id=12&site=main&lang=mn&status=1,200,application/json; charset=utf-8,GET,xhr,1,"iDs, menuname, menuloc, menuvisible, count, parentid, menutid, menulink, site, lang, bgcolor, textcolor, sortid, target, userid, fid, menusort",,3517
+https://api.ipify.org/?format=json,200,application/json,GET,xhr,0,,,21
+https://www.frc.mn:5001/api/menu/getparentsub?id=12&site=main&lang=mn&status=1,200,application/json; charset=utf-8,GET,xhr,2,"iDs, menuname, menuloc, menuvisible, count, parentid, menutid, menulink, site, lang, bgcolor, textcolor, sortid, target, userid, fid, menusort",,8312
+https://www.frc.mn:5001/api/frc/entity?id=12&otid=0,200,application/json; charset=utf-8,GET,xhr,585,"financial_activities_id, financial_activities_name, industry_names, entity_name, license_number, license_date, decision_number, registration_number, state_number, ceo, oldlink, address",,283486
+https://ip-api.com/json/202.70.46.20,403,application/json; charset=utf-8,GET,xhr,0,,,107

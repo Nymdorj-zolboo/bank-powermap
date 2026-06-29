@@ -1,0 +1,7 @@
+﻿check_name,value,status
+network_responses_captured,22,info
+visible_rows_captured,18,info
+final_rows,3,info
+distinct_register_count,0,info
+missing_register_count,3,warning
+duplicate_register_count,0,warning
