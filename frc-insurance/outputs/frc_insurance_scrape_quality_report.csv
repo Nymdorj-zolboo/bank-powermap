@@ -1,0 +1,7 @@
+﻿check_name,value,status
+network_responses_captured,22,info
+visible_rows_captured,20,info
+final_rows,13,info
+distinct_register_count,0,info
+missing_register_count,13,warning
+org_type_breakdown,{'Review': 13},info

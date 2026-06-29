@@ -31,6 +31,7 @@ st.set_page_config(
 _BASE_DIR: Path = Path(__file__).resolve().parent
 DATA_DIR: Path = _BASE_DIR / "gold_datamart"
 DATA_PATH: Path = _BASE_DIR / "frc" / "outputs" / "frc_api_records_guess.jsonl"
+INS_DATA_PATH: Path = _BASE_DIR / "frc-insurance" / "outputs" / "frc_insurance_api_records_guess.jsonl"
 
 # ---------------------------------------------------------------------------
 # Brand colours (shared)
@@ -950,6 +951,13 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
     else:
         frc_load_error = f"FRC файл олдсонгүй: {DATA_PATH}"
 
+    ins_load_error: str | None = None
+    ins_df: pd.DataFrame = pd.DataFrame()
+    if INS_DATA_PATH.exists():
+        ins_df = load_frc_data(INS_DATA_PATH)
+    else:
+        ins_load_error = f"Даатгалын файл олдсонгүй: {INS_DATA_PATH}"
+
     # ── Sidebar ──────────────────────────────────────────────────────────────
     # Bank sidebar filters
     selected_banks: list[str] = []
@@ -1012,8 +1020,27 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
             )
             only_ceo = st.checkbox("Зөвхөн CEO бүртгэлтэй", value=False)
 
+    # Insurance sidebar filters
+    sel_ins_industries: list[str] = []
+    sel_ins_locations: list[str] = []
+    sel_ins_years: tuple[int, int] = (2000, 2030)
+    only_ins_ceo: bool = False
+    with st.sidebar.expander("🛡️ Даатгал шүүлтүүр", expanded=False):
+        if ins_load_error:
+            st.warning("Даатгалын өгөгдөл ачаалагдаагүй.")
+        else:
+            ins_exploded_all = build_exploded(ins_df)
+            ins_all_industries = sorted(ins_exploded_all["industry"].dropna().unique().tolist())
+            ins_all_locations = sorted(ins_df["location"].dropna().unique().tolist())
+            sel_ins_industries = st.multiselect("Үйл ажиллагааны төрөл", ins_all_industries, key="ins_ind")
+            sel_ins_locations = st.multiselect("Байршил (аймаг/хот)", ins_all_locations, key="ins_loc")
+            ins_year_min = int(ins_df["license_year"].min()) if ins_df["license_year"].notna().any() else 2000
+            ins_year_max = int(ins_df["license_year"].max()) if ins_df["license_year"].notna().any() else 2030
+            sel_ins_years = st.slider("Лиценз олгосон он", ins_year_min, ins_year_max, (ins_year_min, ins_year_max), key="ins_yr")
+            only_ins_ceo = st.checkbox("Зөвхөн CEO бүртгэлтэй", value=False, key="ins_ceo")
+
     # ── Tabs ─────────────────────────────────────────────────────────────────
-    tab_bank, tab_frc = st.tabs(["🏦 Банк", "🏢 Банк бус (ББСБ)"])
+    tab_bank, tab_frc, tab_ins = st.tabs(["🏦 Банк", "🏢 Банк бус (ББСБ)", "🛡️ Даатгал"])
 
     # ════════════════════════════════════════════════════════════════════════
     with tab_bank:
@@ -1337,6 +1364,121 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                 st.dataframe(
                     table, use_container_width=True, hide_index=True, height=460
                 )
+
+
+    # ── Insurance tab ─────────────────────────────────────────────────────────
+    with tab_ins:
+        if ins_load_error:
+            st.error(ins_load_error)
+        else:
+            ins_scope = ins_df.copy()
+            if sel_ins_industries:
+                ins_scope = ins_scope[ins_scope["industry_list"].apply(
+                    lambda lst: any(i in lst for i in sel_ins_industries))]
+            if sel_ins_locations:
+                ins_scope = ins_scope[ins_scope["location"].isin(sel_ins_locations)]
+            ins_scope = ins_scope[
+                ins_scope["license_year"].between(sel_ins_years[0], sel_ins_years[1], inclusive="both")
+                | ins_scope["license_year"].isna()
+            ]
+            if only_ins_ceo:
+                ins_scope = ins_scope[ins_scope["has_ceo"]]
+
+            if ins_scope.empty:
+                st.warning("Шүүлтүүрт тохирох байгуулллага алга.")
+            else:
+                ins_scope_ex = build_exploded(ins_scope)
+
+                # Metrics
+                ic1, ic2, ic3, ic4 = st.columns(4)
+                ic1.metric("Нийт байгуулллага", f"{len(ins_scope):,}")
+                ic2.metric("Байршлын тоо", f"{ins_scope['location'].nunique():,}")
+                ic3.metric("CEO бүртгэлтэй", f"{ins_scope['has_ceo'].sum():,}")
+                ic4.metric("Үйл ажиллагааны төрөл", f"{ins_scope_ex['industry'].nunique():,}")
+
+                st.divider()
+
+                # Industry distribution
+                st.markdown('<div class="section-title">Үйл ажиллагааны төрлөөр</div>', unsafe_allow_html=True)
+                ins_ind_counts = (
+                    ins_scope_ex.groupby("industry")["entity_name"]
+                    .nunique().reset_index(name="count").sort_values("count")
+                )
+                fig_ii = px.bar(ins_ind_counts, x="count", y="industry", orientation="h",
+                    color="count", text="count",
+                    color_continuous_scale=["#1c3c65", "#4895fc", "#8fc1ff"],
+                    labels={"count": "Байгуулллага тоо", "industry": "Үйл ажиллагаа"},
+                    title="Даатгалын байгуулллагын үйл ажиллагааны төрөл")
+                fig_ii.update_traces(textposition="outside", textfont_color="#edf5ff")
+                fig_ii.update_layout(coloraxis_showscale=False,
+                    yaxis={"categoryorder": "total ascending"},
+                    xaxis={"range": [0, ins_ind_counts["count"].max() * 1.15]})
+                st.plotly_chart(style_plot(fig_ii, height=420), use_container_width=True)
+
+                st.divider()
+
+                col_ig, col_it = st.columns(2, gap="large")
+                with col_ig:
+                    st.markdown('<div class="section-title">Байршлаар</div>', unsafe_allow_html=True)
+                    ins_loc_counts = (
+                        ins_scope.groupby("location")["entity_name"]
+                        .nunique().reset_index(name="count").sort_values("count")
+                    )
+                    fig_il = px.bar(ins_loc_counts, x="count", y="location", orientation="h",
+                        color="count", text="count",
+                        color_continuous_scale=["#004095", "#4895fc"],
+                        labels={"count": "Байгуулллага тоо", "location": "Байршил"},
+                        title="Байршлаар")
+                    fig_il.update_traces(textposition="outside", textfont_color="#edf5ff")
+                    fig_il.update_layout(coloraxis_showscale=False,
+                        yaxis={"categoryorder": "total ascending"},
+                        xaxis={"range": [0, ins_loc_counts["count"].max() * 1.18]})
+                    st.plotly_chart(style_plot(fig_il, height=400), use_container_width=True)
+
+                with col_it:
+                    st.markdown('<div class="section-title">Лиценз олгосон он</div>', unsafe_allow_html=True)
+                    ins_year_counts = (
+                        ins_scope[ins_scope["license_year"].notna()]
+                        .groupby("license_year")["entity_name"]
+                        .nunique().reset_index(name="count").sort_values("license_year")
+                    )
+                    fig_iy = px.bar(ins_year_counts, x="license_year", y="count",
+                        color="count", text="count",
+                        color_continuous_scale=["#1c3c65", BRAND_AMBER],
+                        labels={"license_year": "Он", "count": "Байгуулллага тоо"},
+                        title="Лиценз олгосон он")
+                    fig_iy.update_traces(textposition="outside", textfont_color="#edf5ff")
+                    fig_iy.update_layout(coloraxis_showscale=False, bargap=0.15,
+                        yaxis={"range": [0, ins_year_counts["count"].max() * 1.18]})
+                    st.plotly_chart(style_plot(fig_iy, height=400), use_container_width=True)
+
+                st.divider()
+
+                # Powermap
+                st.subheader("Даатгал Powermap")
+                st.caption("Сонгосон байгуулллага (төв), холбогдсон хүн/этгээд (1-р тойрог), тэдгээрээр холбогдох бусад компаниуд (2-р тойрог).")
+                render_frc_powermap(ins_scope, bank_edges_df, bank_company_df)
+
+                st.divider()
+
+                # Search table
+                st.markdown('<div class="section-title">Байгуулллагын хайлт</div>', unsafe_allow_html=True)
+                ins_search = st.text_input("Нэрээр хайх",
+                    placeholder="Байгуулллагын нэр эсвэл бүртгэлийн дугаар...",
+                    key="ins_entity_search")
+                ins_table = ins_scope[["entity_name", "industry_names", "location",
+                    "license_number", "license_date", "registration_number", "ceo", "address"]].copy()
+                ins_table["license_date"] = ins_table["license_date"].dt.strftime("%Y-%m-%d")
+                if ins_search:
+                    ins_mask = (
+                        ins_table["entity_name"].str.contains(ins_search, case=False, na=False)
+                        | ins_table["registration_number"].astype(str).str.contains(ins_search, na=False)
+                    )
+                    ins_table = ins_table[ins_mask]
+                ins_table.columns = ["Байгуулллага", "Үйл ажиллагаа", "Байршил",
+                    "Лицензийн №", "Лиценз олгосон огноо", "Бүртгэлийн №", "CEO", "Хаяг"]
+                st.caption(f"{len(ins_table)} байгуулллага")
+                st.dataframe(ins_table, use_container_width=True, hide_index=True, height=460)
 
 
 if __name__ == "__main__":
