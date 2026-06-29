@@ -684,7 +684,7 @@ def load_frc_data(path: Path) -> pd.DataFrame:
 
     def _extract_location(addr: str) -> str:
         if not addr or not str(addr).strip():
-            return "Тодорхойгүй"
+            return "Хаяггүй"
         tokens = str(addr).strip().split()
         return tokens[0] if tokens else "Тодорхойгүй"
 
@@ -694,10 +694,10 @@ def load_frc_data(path: Path) -> pd.DataFrame:
         "Улаанбаатар", "Дорноговь", "Сэлэнгэ", "Төв", "Дорнод", "Дархан-Уул",
         "Орхон", "Завхан", "Архангай", "Баян-Өлгий", "Баянхонгор", "Булган",
         "Говь-Алтай", "Говьсүмбэр", "Дундговь", "Өвөрхангай", "Өмнөговь",
-        "Сүхбаатар", "Увс", "Ховд", "Хөвсгөл", "Хэнтий",
+        "Сүхбаатар", "Увс", "Ховд", "Хөвсгөл", "Хэнтий", "Хаяггүй",
     }
     df["location"] = df["location"].apply(
-        lambda x: x if x in known_locations else "Бусад"
+        lambda x: x if x in known_locations else "Улаанбаатар"
     )
 
     df["has_ceo"] = df["ceo"].fillna("").str.strip().ne("")
@@ -715,6 +715,7 @@ def build_exploded(df: pd.DataFrame) -> pd.DataFrame:
         for ind in row["industry_list"]:
             rows.append(
                 {
+                    "registration_number": row["registration_number"],
                     "entity_name": row["entity_name"],
                     "industry": ind,
                     "location": row["location"],
@@ -733,6 +734,7 @@ def render_frc_powermap(
     df: pd.DataFrame,
     edges: pd.DataFrame,
     company: pd.DataFrame,
+    tab_key: str = "frc",
 ) -> None:
     """Radial powermap for FRC/ББСБ data.
 
@@ -748,7 +750,7 @@ def render_frc_powermap(
     selected_entity = st.selectbox(
         "Powermap-д харуулах ББСБ",
         entity_names,
-        key="frc_powermap_entity_select",
+        key=f"{tab_key}_powermap_entity_select",
     )
 
     row_mask = df["entity_name"] == selected_entity
@@ -904,7 +906,7 @@ def render_frc_powermap(
         ))
 
     fig.update_layout(
-        title=f"ББСБ Powermap — {_short_label(selected_entity, 40)}",
+        title=f"{'Даатгал' if tab_key == 'ins' else 'ББСБ'} Powermap — {_short_label(selected_entity, 40)}",
         showlegend=True,
         legend=dict(orientation="h"),
     )
@@ -1129,7 +1131,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
 
                 # Metrics
                 c1, c2, c3, c4 = st.columns(4)
-                c1.metric("Нийт ББСБ", f"{len(scope):,}")
+                c1.metric("Нийт ББСБ", f"{scope['registration_number'].nunique():,}")
                 c2.metric("Байршлын тоо", f"{scope['location'].nunique():,}")
                 c3.metric("CEO бүртгэлтэй", f"{scope['has_ceo'].sum():,}")
                 c4.metric(
@@ -1145,7 +1147,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                     unsafe_allow_html=True,
                 )
                 ind_counts = (
-                    scope_exploded.groupby("industry")["entity_name"]
+                    scope_exploded.groupby("industry")["registration_number"]
                     .nunique()
                     .reset_index(name="count")
                     .sort_values("count")
@@ -1182,7 +1184,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                         unsafe_allow_html=True,
                     )
                     loc_counts = (
-                        scope.groupby("location")["entity_name"]
+                        scope.groupby("location")["registration_number"]
                         .nunique()
                         .reset_index(name="count")
                         .sort_values("count")
@@ -1215,7 +1217,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                     )
                     year_counts = (
                         scope[scope["license_year"].notna()]
-                        .groupby("license_year")["entity_name"]
+                        .groupby("license_year")["registration_number"]
                         .nunique()
                         .reset_index(name="count")
                         .sort_values("license_year")
@@ -1330,40 +1332,17 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                     placeholder="ББСБ нэр эсвэл registration дугаар...",
                     key="frc_entity_search",
                 )
-                table = scope[
-                    [
-                        "entity_name",
-                        "industry_names",
-                        "location",
-                        "license_number",
-                        "license_date",
-                        "registration_number",
-                        "ceo",
-                        "address",
-                    ]
-                ].copy()
+                table = scope[["entity_name", "industry_names", "location",
+                    "license_number", "license_date", "registration_number", "ceo", "address"]].copy()
                 table["license_date"] = table["license_date"].dt.strftime("%Y-%m-%d")
                 if search:
-                    mask = table["entity_name"].str.contains(
-                        search, case=False, na=False
-                    ) | table["registration_number"].astype(str).str.contains(
-                        search, na=False
-                    )
+                    mask = (table["entity_name"].str.contains(search, case=False, na=False)
+                        | table["registration_number"].astype(str).str.contains(search, na=False))
                     table = table[mask]
-                table.columns = [
-                    "Байгуулллага",
-                    "Үйл ажиллагаа",
-                    "Байршил",
-                    "Лицензийн №",
-                    "Лиценз олгосон огноо",
-                    "Бүртгэлийн №",
-                    "CEO",
-                    "Хаяг",
-                ]
+                table.columns = ["Байгуулллага", "Үйл ажиллагаа", "Байршил",
+                    "Лицензийн №", "Лиценз олгосон огноо", "Бүртгэлийн №", "CEO", "Хаяг"]
                 st.caption(f"{len(table)} байгуулллага")
-                st.dataframe(
-                    table, use_container_width=True, hide_index=True, height=460
-                )
+                st.dataframe(table, use_container_width=True, hide_index=True, height=460)
 
 
     # ── Insurance tab ─────────────────────────────────────────────────────────
@@ -1391,7 +1370,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
 
                 # Metrics
                 ic1, ic2, ic3, ic4 = st.columns(4)
-                ic1.metric("Нийт байгуулллага", f"{len(ins_scope):,}")
+                ic1.metric("Нийт байгуулллага", f"{ins_scope['registration_number'].nunique():,}")
                 ic2.metric("Байршлын тоо", f"{ins_scope['location'].nunique():,}")
                 ic3.metric("CEO бүртгэлтэй", f"{ins_scope['has_ceo'].sum():,}")
                 ic4.metric("Үйл ажиллагааны төрөл", f"{ins_scope_ex['industry'].nunique():,}")
@@ -1401,7 +1380,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                 # Industry distribution
                 st.markdown('<div class="section-title">Үйл ажиллагааны төрлөөр</div>', unsafe_allow_html=True)
                 ins_ind_counts = (
-                    ins_scope_ex.groupby("industry")["entity_name"]
+                    ins_scope_ex.groupby("industry")["registration_number"]
                     .nunique().reset_index(name="count").sort_values("count")
                 )
                 fig_ii = px.bar(ins_ind_counts, x="count", y="industry", orientation="h",
@@ -1421,7 +1400,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                 with col_ig:
                     st.markdown('<div class="section-title">Байршлаар</div>', unsafe_allow_html=True)
                     ins_loc_counts = (
-                        ins_scope.groupby("location")["entity_name"]
+                        ins_scope.groupby("location")["registration_number"]
                         .nunique().reset_index(name="count").sort_values("count")
                     )
                     fig_il = px.bar(ins_loc_counts, x="count", y="location", orientation="h",
@@ -1439,7 +1418,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                     st.markdown('<div class="section-title">Лиценз олгосон он</div>', unsafe_allow_html=True)
                     ins_year_counts = (
                         ins_scope[ins_scope["license_year"].notna()]
-                        .groupby("license_year")["entity_name"]
+                        .groupby("license_year")["registration_number"]
                         .nunique().reset_index(name="count").sort_values("license_year")
                     )
                     fig_iy = px.bar(ins_year_counts, x="license_year", y="count",
@@ -1457,7 +1436,7 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                 # Powermap
                 st.subheader("Даатгал Powermap")
                 st.caption("Сонгосон байгуулллага (төв), холбогдсон хүн/этгээд (1-р тойрог), тэдгээрээр холбогдох бусад компаниуд (2-р тойрог).")
-                render_frc_powermap(ins_scope, bank_edges_df, bank_company_df)
+                render_frc_powermap(ins_scope, bank_edges_df, bank_company_df, tab_key="ins")
 
                 st.divider()
 
@@ -1470,10 +1449,8 @@ def main() -> None:  # noqa: C901  (intentionally one large orchestrator)
                     "license_number", "license_date", "registration_number", "ceo", "address"]].copy()
                 ins_table["license_date"] = ins_table["license_date"].dt.strftime("%Y-%m-%d")
                 if ins_search:
-                    ins_mask = (
-                        ins_table["entity_name"].str.contains(ins_search, case=False, na=False)
-                        | ins_table["registration_number"].astype(str).str.contains(ins_search, na=False)
-                    )
+                    ins_mask = (ins_table["entity_name"].str.contains(ins_search, case=False, na=False)
+                        | ins_table["registration_number"].astype(str).str.contains(ins_search, na=False))
                     ins_table = ins_table[ins_mask]
                 ins_table.columns = ["Байгуулллага", "Үйл ажиллагаа", "Байршил",
                     "Лицензийн №", "Лиценз олгосон огноо", "Бүртгэлийн №", "CEO", "Хаяг"]
