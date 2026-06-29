@@ -1,0 +1,31 @@
+﻿party_key,party_name,country,connected_companies,relation_rows,relation_types,foreign_relation_count,dominant_party_category,node_type
+PARTY::МОНГОЛУЛС::ЖАМБАЛЖАМЦ::ОДЖАРГАЛ,Жамбалжамц Оджаргал,Монгол Улс,93,94,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::БАТСАЙХАН::ПҮРЭВ,Пүрэв Батсайхан,Монгол Улс,48,55,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::ЛУВСАН::ХҮРЭЛБААТАР,Лувсан Хүрэлбаатар,Монгол Улс,45,86,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::БАЯРСАЙХАН::ШАГДАРСҮРЭН,Шагдарсүрэн Баярсайхан,Монгол Улс,37,48,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::БАДАМХАТАН::ГАНТУЛГА,Бадамхатан Гантулга,Монгол Улс,35,39,"representative, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::ИПОТЕКИЙН::КОРПОРАЦИ::МОНГОЛЫН::ОССК,Монголын Ипотекийн Корпораци Осск,Монгол Улс,33,33,shareholder,0,Х/Этгээд,party
+PARTY::МОНГОЛУЛС::БААТАРСАЙХАН::ЦАГААЧ,Цагаач Баатарсайхан,Монгол Улс,29,34,"representative, shareholder, ultimate_owner",0,Захирал,party
+PARTY::МОНГОЛУЛС::АЙ::ГРУПП::СИ::ТИ,Ай Си Ти Групп,Монгол Улс,29,29,shareholder,0,Х/Этгээд,party
+PARTY::МОНГОЛУЛС::ОДОН::САЙНЖАРГАЛ,Одон Сайнжаргал,Монгол Улс,27,32,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::БАЯСГАЛАН::ДАНЗАНДОРЖ,Данзандорж Баясгалан,Монгол Улс,26,29,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::::НИЙТ::ОЛОН::ХУВЬЦАА,Хувьцаа Олон Нийт,,26,27,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::БАТБААТАР::ЦОГТБАЯР,Цогтбаяр Батбаатар,Монгол Улс,24,36,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::БАТБОЛД::ШИНЭЗАЯА,Батболд Шинэзаяа,Монгол Улс,24,28,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::ХОЛДИНГ::ШУНХЛАЙ,Шунхлай Холдинг,Монгол Улс,24,24,shareholder,0,Х/Этгээд,party
+PARTY::МОНГОЛУЛС::ХҮЧНИЙ::ЭРЧИМ::ЯАМ,Эрчим Хүчний Яам,Монгол Улс,24,24,shareholder,0,Х/Этгээд,party
+PARTY::МОНГОЛУЛС::МОНГОЛ::ЭРЧИСТ,Эрчист Монгол,Монгол Улс,23,23,shareholder,0,Х/Этгээд,party
+PARTY::МОНГОЛУЛС::ЛХАГВА::ЧИНБАТ,Лхагва Чинбат,Монгол Улс,22,50,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::БАТБОЛД::ДӨЛГӨӨН,Батболд Дөлгөөн,Монгол Улс,22,36,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::БАТБАЯР::ГАНБАТ,Ганбат Батбаяр,Монгол Улс,20,33,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::ГАНТУЛГА::ХАТАНБОЛД,Гантулга Хатанболд,Монгол Улс,20,22,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::АДИЛБИШ::БАТТАМИР,Адилбиш Баттамир,Монгол Улс,20,21,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::БОГД::ТАВАН::ХОЛДИНГС,Таван Богд Холдингс,Монгол Улс,20,20,shareholder,0,Х/Этгээд,party
+PARTY::МОНГОЛУЛС::АРИУНБОЛД::ЧИНБИШРЭЛТ,Ариунболд Чинбишрэлт,Монгол Улс,18,36,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party
+PARTY::МОНГОЛУЛС::ДАНЗАНДАРЖАА::ТУЯА,Данзандаржаа Туяа,Монгол Улс,18,22,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::ДАМЖИН::ОДОН,Одон Дамжин,Монгол Улс,18,22,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::ВЕНЧЕРС::М::СИ::ЭС,М Си Эс Венчерс,Монгол Улс,18,18,shareholder,0,Х/Этгээд,party
+PARTY::МОНГОЛУЛС::ГАНТӨМӨР::ТАРДАЙ,Тардай Гантөмөр,Монгол Улс,17,29,"representative, shareholder, ultimate_owner",0,Захирал,party
+PARTY::МОНГОЛУЛС::ДАВААНЯМ::ЭНХЧИМЭГ,Давааням Энхчимэг,Монгол Улс,17,28,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::АДИЛБИШ::ГАНХУЯГ,Адилбиш Ганхуяг,Монгол Улс,17,25,"shareholder, ultimate_owner",0,Иргэн,party
+PARTY::МОНГОЛУЛС::АРИУНБОЛД::ЧИНСАНАА,Ариунболд Чинсанаа,Монгол Улс,17,25,"representative, shareholder, ultimate_owner",0,Гүйцэтгэх захирал,party

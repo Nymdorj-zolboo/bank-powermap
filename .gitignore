@@ -1,0 +1,25 @@
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.tmp
+*.bak
+
+raw_source/
+.streamlit/
+
+.venv/
+venv/
+env/
+
+# Old versions
+streamlit_app_v1.py
+streamlit_app_v2.py
+streamlit_app.py
+bank_branch_powermap.py
+bank_official_powermap.py
+inspect_mongolbank_sources.py
+build_clean_bank_market.py
+run_bank_official_powermap.ps1

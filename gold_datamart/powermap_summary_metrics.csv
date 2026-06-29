@@ -1,0 +1,11 @@
+﻿metric,value
+raw_market_rows,52602
+valid_market_registers,48187
+company_master_rows,48187
+company_with_main_info,46288
+company_with_representative,45124
+company_with_shareholder,39616
+company_with_ultimate_owner,38456
+party_nodes,118984
+relationship_edges,221302
+parties_linked_to_2plus_companies,18168

@@ -1,0 +1,13 @@
+﻿bank_id,register,company_reg_num,company_name_vat,bank_name_mn,bank_name_en,short_name,bank_pdf_name,is_systemic_bank,bank_join_key,vat_join_key,source_bank_list_url,source_branch_unit_url,latest_branch_period
+1,2635534,2635534,Худалдаа хөгжлийн банк,Худалдаа хөгжлийн банк,Trade and Development Bank,TDB,Худалдаа хөгжлийн,1,ХУДАЛДААХӨГЖЛИЙН,ХУДАЛДААХӨГЖЛИЙН,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+2,2693321,2693321,Хаан банк,ХААН банк,Khan Bank,KHAN,ХААН,1,ХААН,ХААН,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+3,2075377,2075377,Голомтбанк,Голомт банк,Golomt Bank,GOLOMT,Голомт,1,ГОЛОМТ,ГОЛОМТ,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+4,2078201,2078201,Тээвэр хөгжлийн банк,Тээвэр хөгжлийн банк,TransBank,TRANS,Тээвэр хөгжлийн,0,ТЭЭВЭРХӨГЖЛИЙН,ТЭЭВЭРХӨГЖЛИЙН,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+5,2111683,2111683,Аригбанк,Ариг банк,Arig Bank,ARIG,Ариг,0,АРИГ,АРИГ,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+6,2693771,2693771,Үндэсний хөрөнгө оруулалтын банк,Үндэсний хөрөнгө оруулалтын банк,National Investment Bank of Mongolia,NIB,ҮХО,0,ҮНДЭСНИЙХӨРӨНГӨОРУУЛАЛТЫН,ҮНДЭСНИЙХӨРӨНГӨОРУУЛАЛТЫН,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+7,2677377,2677377,Капитрон банк,Капитрон банк,Capitron Bank,CAPITRON,Капитрон,0,КАПИТРОН,КАПИТРОН,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+8,2578697,2578697,Хас банк,Хас банк,XacBank,XAC,Хас,1,ХАС,ХАС,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+9,2698072,2698072,Чингисхаан банк,Чингис Хаан банк,Chinggis Khaan Bank,CKB,Чингис Хаан,0,ЧИНГИСХААН,ЧИНГИСХААН,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+10,5341469,5341469,Төрийн банк,Төрийн банк,State Bank,STATE,Төрийн,1,ТӨРИЙН,ТӨРИЙН,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+11,5903858,5903858,Богдбанк,Богд банк,Bogd Bank,BOGD,Богд,0,БОГД,БОГД,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
+12,6207618,6207618,М банк,М банк,M Bank,MBANK,М,0,М,М,https://www.mongolbank.mn/en/p/introduction,raw_source/mongolbank_branch_units_2026_05_with_register.xlsx,2026-05
